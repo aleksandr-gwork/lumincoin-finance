@@ -1,0 +1,10 @@
+.date-inputs label {
+    width: 100px;
+    height: 37px;
+}
+
+@media (max-width: 790px) {
+    .first-col {
+        border: 0 !important;
+    }
+}

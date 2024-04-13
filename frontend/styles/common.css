@@ -1,0 +1,40 @@
+:root {
+    --color-1: #052C65;
+}
+
+thead > tr > th {
+    color: #052C65!important;
+    font-weight: bold;
+}
+
+.h1 {
+    color: #052C65;
+}
+
+.h3 {
+    color: #290661;
+}
+
+.fs-14 {
+    font-size: 14px;
+}
+
+.popup-card {
+    width: 35%;
+}
+
+.category-items a:hover {
+    background-color: var(--bs-primary) !important;
+    color: var(--bs-white);
+}
+
+.category-items a.active-category {
+    background-color: var(--bs-primary) !important;
+    color: var(--bs-white);
+}
+
+@media screen and (max-width: 893px) {
+    .popup-card {
+        width: 90%;
+    }
+}

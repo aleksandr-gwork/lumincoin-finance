@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+	<title>Доходы</title>
+	<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+	<link href="styles/common.css" rel="stylesheet">
+	<link href="styles/sidebar.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="d-none vh-100 vw-100 position-fixed top-0 start-0 bg-opacity-50 bg-black z-3">
+	<div class="popup-card card position-fixed top-50 start-50 translate-middle">
+		<div class="card-body text-center" style="padding: 40px">
+			<h4 class="h6 mb-3">Вы действительно хотите удалить операцию?</h4>
+			<div class="d-flex gap-2 justify-content-center">
+				<a class="btn btn-success" href="#">Да, удалить</a>
+				<a class="btn btn-danger" href="#">Не удалять</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="toggled" id="wrapper">
+	<!-- Sidebar -->
+	<div id="sidebar-wrapper">
+		<div class="d-flex flex-column flex-shrink-0 border-1 border-end border-secondary-subtle fs-14 vh-100">
+			<a class="d-flex align-items-center mx-auto mt-4 px-3 pt-3 " href="main.html">
+				<img alt="Lumincoin" src="static/images/logo.png" width="98">
+			</a>
+			<hr>
+			<ul class="nav nav-pills flex-column mb-auto sidebar-nav-items p-3">
+				<li class="nav-item">
+					<a class="fs-14 nav-link d-flex align-items-center gap-2 link-body-emphasis" href="main.html">
+						<i class="bi bi-house"></i>
+						Главная
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="fs-14 nav-link d-flex align-items-center gap-2 link-body-emphasis active"
+					   href="income-and-expense.html">
+						<i class="bi bi-cash-coin"></i>
+						Доходы & Расходы
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="fs-14 nav-link d-flex align-items-center gap-2 rounded-bottom-0 link-body-emphasis"
+					   data-bs-target="#category-collapse"
+					   data-bs-toggle="collapse"
+					   id="category-button"
+					   href="javascript:void(0)">
+						Категории
+					</a>
+					<div class="category-items collapse list-group rounded-top-0"
+					     id="category-collapse">
+						<a class="list-group-item bg-transparent" href="income.html">Доходы</a>
+						<a class="list-group-item bg-transparent" href="expense.html">Расходы</a>
+					</div>
+				</li>
+			</ul>
+			<div class="sidebar-balance-item fw-medium px-3">Баланс: <span class="ms-2 text-primary"
+			                                                               id="balance">500$</span>
+			</div>
+			<hr>
+			<div class="sidebar-user-item px-3 pb-3">
+				<a class="d-flex align-items-center link-body-emphasis text-decoration-none" href="javascript:void(0)">
+					<img alt="Аватар" class="rounded-circle me-3 img" height="36" src="static/images/avatar.svg"
+					     width="36">
+					<p class="m-0">RomanChernov</p>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- /#sidebar-wrapper -->
+
+	<!-- Page Content -->
+	<div id="page-content-wrapper">
+
+		<div class="container-fluid gx-0">
+
+			<div class="position-relative fs-14 p-0 p-lg-4">
+
+				<a class=" float-right rounded-circle position-absolute top-0 start-0 d-lg-none z-2"
+				   href="#menu-toggle" id="menu-toggle">
+					<i class="bi bi-arrow-right-circle-fill h2"></i>
+				</a>
+
+				<div class="main-title h1 pb-2 text-center text-lg-start">Доходы и расходы</div>
+
+				<div class="d-flex gap-2 pt-4">
+					<a id="add-income" class="btn btn-success" href="#" role="button">Создать доход</a>
+					<a id="add-expense" class="btn btn-danger" href="#" role="button">Создать расход</a>
+				</div>
+
+				<div class="d-flex flex-wrap d-flex gap-3 py-5">
+					<input autocomplete="off" checked class="btn-check" id="today-input" name="options" type="radio">
+					<label class="btn btn-outline-secondary" for="today-input">Сегодня</label>
+
+					<input autocomplete="off" class="btn-check" id="week-input" name="options" type="radio">
+					<label class="btn btn-outline-secondary" for="week-input">Неделя</label>
+
+					<input autocomplete="off" class="btn-check" id="month-input" name="options" type="radio">
+					<label class="btn btn-outline-secondary" for="month-input">Месяц</label>
+
+					<input autocomplete="off" class="btn-check" id="year-input" name="options" type="radio">
+					<label class="btn btn-outline-secondary" for="year-input">Год</label>
+
+					<input autocomplete="off" class="btn-check" id="all-input" name="options" type="radio">
+					<label class="btn btn-outline-secondary" for="all-input">Все</label>
+
+					<input autocomplete="off" class="btn-check" id="interval-input" name="options" type="radio">
+					<label class="btn btn-outline-secondary" for="interval-input">Интервал</label>
+
+					<div class="d-flex align-items-center gap-4">
+						<div class="fw-medium">с <a class="text-secondary ms-2" href="javascript:void(0)">Дата</a></div>
+						<div class="fw-medium">по <a class="text-secondary ms-2" href="javascript:void(0)">Дата</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table text-center border-top">
+						<thead>
+						<tr>
+							<th>№ операции</th>
+							<th>Тип</th>
+							<th>Категория</th>
+							<th>Сумма</th>
+							<th>Дата</th>
+							<th>Комментарий</th>
+							<th></th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td class="fw-bold">1</td>
+							<td class="text-success">доход</td>
+							<td>зарплата</td>
+							<td>500$</td>
+							<td>11.09.2022</td>
+							<td></td>
+							<td class="d-flex gap-2">
+								<a href="javascript:void(0)" class="link-body-emphasis"><i class="bi bi-trash"></i></a>
+								<a href="edit-income-and-expense.html" class="link-body-emphasis"><i class="bi bi-pencil"></i></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="fw-bold">2</td>
+							<td class="text-danger">расход</td>
+							<td>жильё</td>
+							<td>2500$</td>
+							<td>12.09.2022</td>
+							<td></td>
+							<td class="d-flex gap-2">
+								<a href="javascript:void(0)" class="link-body-emphasis"><i class="bi bi-trash"></i></a>
+								<a href="edit-income-and-expense.html" class="link-body-emphasis"><i class="bi bi-pencil"></i></a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- /#page-content-wrapper -->
+</div>
+
+<script crossorigin="anonymous"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/sidebar.js"></script>
+</body>
+</html>

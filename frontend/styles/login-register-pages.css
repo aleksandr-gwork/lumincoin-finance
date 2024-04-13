@@ -1,0 +1,19 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-container {
+    max-width: 397px;
+}
+
+.form-title {
+    color: #052C65;
+}
+
+.form-container * {
+    font-size: 15px;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
