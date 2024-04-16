@@ -1,0 +1,50 @@
+<div class="container-fluid gx-0">
+	<div class="position-relative fs-14 p-0 p-lg-4 vh-100">
+
+		<a class=" float-right rounded-circle position-absolute top-0 start-0 d-lg-none z-2"
+		   href="javascript:void(0)" id="menu-toggle">
+			<i class="bi bi-arrow-right-circle-fill h2"></i>
+		</a>
+
+		<div class="main-title h1 pb-1 text-center text-lg-start">Главная</div>
+
+		<div class="d-flex flex-wrap d-flex gap-3 py-5">
+			<input autocomplete="off" checked class="btn-check" id="today-input" name="options"
+			       type="radio">
+			<label class="btn btn-outline-secondary" for="today-input">Сегодня</label>
+
+			<input autocomplete="off" class="btn-check" id="week-input" name="options" type="radio">
+			<label class="btn btn-outline-secondary" for="week-input">Неделя</label>
+
+			<input autocomplete="off" class="btn-check" id="month-input" name="options" type="radio">
+			<label class="btn btn-outline-secondary" for="month-input">Месяц</label>
+
+			<input autocomplete="off" class="btn-check" id="year-input" name="options" type="radio">
+			<label class="btn btn-outline-secondary" for="year-input">Год</label>
+
+			<input autocomplete="off" class="btn-check" id="all-input" name="options" type="radio">
+			<label class="btn btn-outline-secondary" for="all-input">Все</label>
+
+			<input autocomplete="off" class="btn-check" id="interval-input" name="options" type="radio">
+			<label class="btn btn-outline-secondary" for="interval-input">Интервал</label>
+
+			<div class="d-flex align-items-center gap-4">
+				<div class="fw-medium">с <a class="text-secondary ms-2" href="javascript:void(0)">Дата</a>
+				</div>
+				<div class="fw-medium">по <a class="text-secondary ms-2" href="javascript:void(0)">Дата</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container text-center p-0 p-xl-5 mt-0 mt-md-5">
+			<div class="row ">
+				<div class="first-col col-md-6 mb-5 mb-md-0 border-end">
+					<canvas id="incomeChart"></canvas>
+				</div>
+				<div class="col-md-6">
+					<canvas id="expenseChart"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,43 @@
+
+		<div class="container-fluid gx-0">
+
+			<div class="position-relative fs-14 p-0 p-lg-4">
+
+				<a class=" float-right rounded-circle position-absolute top-0 start-0 d-lg-none z-2"
+				   href="javascript:void(0)" id="menu-toggle">
+					<i class="bi bi-arrow-right-circle-fill h2"></i>
+				</a>
+
+				<div class="main-title h1 pb-1 text-center text-lg-start">Создание дохода/расхода</div>
+
+				<form class="py-5 needs-validation" novalidate style="max-width: 400px">
+
+					<div class="input-group mb-3">
+						<input class="form-control is-" id="type-input" placeholder="Тип..." required type="text">
+						<div class="invalid-feedback">Пожалуйста, заполните тип.</div>
+					</div>
+					<div class="input-group mb-3">
+						<input class="form-control" id="category-input" placeholder="Категория..." required type="text">
+						<div class="invalid-feedback">Пожалуйста, заполните категорию.</div>
+					</div>
+					<div class="input-group mb-3">
+						<input class="form-control" id="money-input" placeholder="Сумма в $..." required type="text">
+						<div class="invalid-feedback">Пожалуйста, заполните сумму.</div>
+					</div>
+					<div class="input-group mb-3">
+						<input class="form-control" id="date-input" placeholder="Дата..." required type="text">
+						<div class="invalid-feedback">Пожалуйста, заполните дату.</div>
+					</div>
+					<div class="input-group mb-3">
+						<input class="form-control" id="comment-input" placeholder="Комментарий..." type="text">
+					</div>
+
+					<div class="d-flex pt-2 gap-2">
+						<button class="btn btn-success" id="accept-button" type="submit">Создать</button>
+						<a href="#/income-and-expense" class="btn btn-danger" id="exit-button" type="button">Отмена</a>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
