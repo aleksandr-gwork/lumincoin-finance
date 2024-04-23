@@ -21,15 +21,15 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                {from: "templates", to: "templates"},
-                {from: "styles", to: "styles"},
+                {from: "src/templates", to: "templates"},
+                {from: "src/styles", to: "styles"},
+                {from: "src/static/images", to: "images"},
                 {from: "node_modules/bootstrap/dist/css/bootstrap.min.css", to: "styles"},
                 {from: "node_modules/bootstrap-icons/font/bootstrap-icons.min.css", to: "styles"},
                 {from: "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff", to: "styles/fonts"},
                 {from: "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2", to: "styles/fonts"},
                 {from: "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js", to: "scripts"},
-                {from: "node_modules/chart.js/dist/chart.js", to: "scripts"},
-                {from: "static/images", to: "images"}
+                {from: "node_modules/chart.js/dist/chart.js", to: "scripts"}
             ],
         }),
     ],

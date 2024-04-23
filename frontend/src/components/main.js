@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto'
+import {Chart} from 'chart.js/auto';
 
 export class Main {
     constructor() {
@@ -13,7 +13,7 @@ export class Main {
             labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
             datasets: [{
                 label: ' - Доходы',
-                data: [19, 12, 3, 5, 2, 3],
+                data: [19, 12, 3, 5, 2],
                 borderWidth: 1
             }]
         };
@@ -22,7 +22,7 @@ export class Main {
             labels: ['Red', 'Orange', 'Yellow', 'Green', 'Blue'],
             datasets: [{
                 label: ' - Расходы',
-                data: [10, 12, 20, 5, 20, 3],
+                data: [10, 12, 20, 5, 20],
                 borderWidth: 1
             }]
         };

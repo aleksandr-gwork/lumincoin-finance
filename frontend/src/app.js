@@ -8,7 +8,7 @@ class App {
     }
 
     handleRouteChanging() {
-        this.router.openRoute();
+        this.router.openRoute().then();
     }
 }
 

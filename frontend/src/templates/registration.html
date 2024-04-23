@@ -12,31 +12,47 @@
 				<span class="input-group-text" id="user-icon">
 					<img alt="Иконка пользователя" src="images/person.svg">
 				</span>
-					<input class="form-control" placeholder="ФИО" required type="email">
+					<input class="form-control"
+					       placeholder="ФИО"
+					       id="name"
+					       type="text">
 					<div class="invalid-feedback">Введите ФИО</div>
 				</div>
 				<div class="input-group mb-2">
-					<span class="input-group-text" id="email-icon"><img alt="Иконка почты"
-					                                                    src="images/envelope-open.svg"></span>
-					<input class="form-control" placeholder="Электронная почта" required type="email">
+					<span class="input-group-text" id="email-icon">
+						<img alt="Иконка почты" src="images/envelope-open.svg">
+					</span>
+					<input class="form-control"
+					       placeholder="Электронная почта"
+					       id="email"
+					       type="email">
 					<div class="invalid-feedback">Неверная почта</div>
 				</div>
 				<div class="input-group mb-2">
-					<span class="input-group-text" id="password-icon"><img alt="Иконка пароля"
-					                                                       src="images/lock.svg"></span>
-					<input class="form-control" placeholder="Пароль" required type="password">
+					<span class="input-group-text" id="password-icon">
+						<img alt="Иконка пароля" src="images/lock.svg">
+					</span>
+					<input class="form-control"
+					       placeholder="Пароль"
+					       id="password"
+					       type="password">
 					<div class="invalid-feedback">Некорректный пароль</div>
 				</div>
 				<div class="input-group mb-4">
-					<span class="input-group-text" id=password-repeat-icon"><img alt="Иконка пароля"
-					                                                             src="images/lock.svg"></span>
-					<input class="form-control" placeholder="Подтверждение пароля" required type="password">
+					<span class="input-group-text" id=password-repeat-icon">
+						<img alt="Иконка пароля" src="images/lock.svg">
+					</span>
+					<input class="form-control"
+					       placeholder="Подтверждение пароля"
+					       id="repeatPassword"
+					       type="password">
 					<div class="invalid-feedback">Пароли не совпадают</div>
 				</div>
 				<button class="btn btn-primary w-100 py-2 fw-medium" id="accept-button" type="button">Войти</button>
 				<p class="text-start mt-2 fs-12">
 					Уже есть аккаунт? <a class="fs-12" href="#/login">Войти в систему</a>
 				</p>
+
 			</form>
 		</main>
 	</div>

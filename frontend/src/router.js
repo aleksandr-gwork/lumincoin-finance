@@ -1,6 +1,10 @@
 import {Sidebar} from "./components/sidebar.js";
 import {Main} from "./components/main.js";
 import {Validation} from "./components/validation.js";
+import {Login} from "./components/auth/login.js";
+import {Logout} from "./components/auth/logout.js";
+import {Registration} from "./components/auth/registration.js";
+import {Auth} from "./components/auth/auth";
 
 export class Router {
     constructor() {
@@ -26,7 +30,13 @@ export class Router {
                 template: 'templates/login.html',
                 styles: 'styles/login-register-pages.css',
                 load: () => {
-                    new Validation();
+                    new Login();
+                }
+            },
+            {
+                route: '#/logout',
+                load: () => {
+                    new Logout();
                 }
             },
             {
@@ -35,14 +45,13 @@ export class Router {
                 template: 'templates/registration.html',
                 styles: 'styles/login-register-pages.css',
                 load: () => {
-                    new Validation();
+                    new Registration();
                 }
             },
             {
                 route: '#/income',
                 title: 'Доходы',
                 template: 'templates/income/income.html',
-                styles: 'styles/income.css',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
@@ -52,7 +61,6 @@ export class Router {
                 route: '#/income-edit',
                 title: 'Редактирование категории доходов',
                 template: 'templates/income/income-edit.html',
-                styles: 'styles/income.css',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
@@ -63,7 +71,6 @@ export class Router {
                 route: '#/income-create',
                 title: 'Создание категории расходов',
                 template: 'templates/income/income-create.html',
-                styles: 'styles/income.css',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
@@ -74,7 +81,6 @@ export class Router {
                 route: '#/expense',
                 title: 'Расходы',
                 template: 'templates/expense/expense.html',
-                styles: 'styles/expense.css',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
@@ -84,7 +90,6 @@ export class Router {
                 route: '#/expense-edit',
                 title: 'Редактирование категории расходов',
                 template: 'templates/expense/expense-edit.html',
-                styles: 'styles/expense.css',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
@@ -95,7 +100,6 @@ export class Router {
                 route: '#/expense-create',
                 title: 'Создание категории расходов',
                 template: 'templates/expense/expense-create.html',
-                styles: 'styles/expense.css',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
@@ -135,19 +139,33 @@ export class Router {
     }
 
     async openRoute() {
+
+        const urlRoute = window.location.hash.split('?')[0];
+
+        // Find route
         const newRoute = this.routes.find(item => {
-            return item.route === window.location.hash.split('?')[0];
+            return item.route === urlRoute;
         });
 
         if (!newRoute) {
             window.location.href = '#/';
+            return;
+        }
+
+        if (newRoute && newRoute.route !== '#/login' && newRoute.route !== '#/registration' && localStorage.getItem(Auth.accessTokenKey) === null) {
+            window.location.href = '#/login';
+            return;
+        }
+
+        if (newRoute && (newRoute.route === '#/login' || newRoute.route === '#/registration') && localStorage.getItem(Auth.accessTokenKey)) {
+            window.location.href = '#/';
+            return;
         }
 
         if (newRoute) {
             if (newRoute.title) {
                 this.titlePageElement.innerHTML = newRoute.title + ' | Lumincoin Finance';
             }
-
             if (newRoute.template) {
                 let contentBlock = this.contentPageElement;
                 if (newRoute.useSidebar) {
@@ -162,4 +180,6 @@ export class Router {
             newRoute.load();
         }
     }
+
+
 }
