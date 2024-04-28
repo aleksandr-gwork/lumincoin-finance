@@ -21,7 +21,7 @@ export class Registration {
 
 
         this.emailRegExp = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/;
-        this.passRegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,})\S$/;
+        this.passRegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
 
         this.form = document.querySelector('form');
         this.formInputs = this.form.querySelectorAll('input');
@@ -75,8 +75,8 @@ export class Registration {
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        name: userFullName[0],
-                        lastName: userFullName[1],
+                        name: userFullName[1],
+                        lastName: userFullName[0],
                         email: this.emailInputElement.value,
                         password: this.passwordInputElement.value,
                         passwordRepeat: this.passwordRepeatInputElement.value

@@ -19,7 +19,7 @@ export class Login {
         let isValid = true;
 
         this.emailRegExp = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/;
-        this.passRegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,})\S$/;
+        this.passRegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
 
         this.form = document.querySelector('form');
         this.formInputs = this.form.querySelectorAll('input');

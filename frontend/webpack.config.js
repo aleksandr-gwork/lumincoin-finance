@@ -29,7 +29,8 @@ module.exports = {
                 {from: "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff", to: "styles/fonts"},
                 {from: "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2", to: "styles/fonts"},
                 {from: "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js", to: "scripts"},
-                {from: "node_modules/chart.js/dist/chart.js", to: "scripts"}
+                {from: "node_modules/chart.js/dist/chunks/helpers.segment.js", to: "scripts/chunks/helpers.segment.js"},
+                {from: "node_modules/chart.js/dist/chart.umd.js", to: "scripts"},
             ],
         }),
     ],

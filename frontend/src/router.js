@@ -4,7 +4,7 @@ import {Validation} from "./components/validation.js";
 import {Login} from "./components/auth/login.js";
 import {Logout} from "./components/auth/logout.js";
 import {Registration} from "./components/auth/registration.js";
-import {Auth} from "./components/auth/auth";
+import {Auth} from "./components/auth/auth.js";
 
 export class Router {
     constructor() {
