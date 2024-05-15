@@ -1,40 +1,55 @@
 import config from "../../config/config.js";
 
 export class Auth {
+
     static accessTokenKey = 'accessToken';
     static refreshTokenKey = 'refreshToken';
     static userInfoKey = 'userInfo';
 
     static async processUnauthorizedRequest() {
+        // Retrieve the refresh token from local storage
         const refreshToken = localStorage.getItem(this.refreshTokenKey);
+
+        // If the refresh token is not available, remove the tokens and return false
         if (!refreshToken) {
             this.removeTokens();
-            window.location.hash = '#/';
             return false;
         }
 
-        const response = await fetch(config.host + '/refresh', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({refreshToken: refreshToken})
-        });
+        try {
+            // Send a POST request to the server to refresh the token
+            const response = await fetch(`${config.api}/refresh`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({refreshToken: refreshToken})
+            });
 
-        if (response.ok) {
-            const result = await response.json();
-            if (result && !result.error) {
-                this.setTokens(result.accessToken, result.refreshToken);
-                return true;
+            // If the server responds with an unsuccessful status, throw an error
+            if (!response.ok) {
+                throw new Error('Failed to refresh token');
             }
+
+            // Parse the response as JSON
+            const result = await response.json();
+
+            // If the response contains an error, throw an error
+            if (result.error) {
+                throw new Error('Error refreshing token');
+            }
+
+            // Set the new tokens
+            this.setTokens(result.tokens.accessToken, result.tokens.refreshToken);
+            return true;
+        } catch (error) {
+            // Log the error, remove the tokens, and return false
+            console.error(error);
+            this.removeTokens();
+            return false;
         }
-
-        this.removeTokens();
-        window.location.hash = '#/';
-        return false;
     }
-
 
 
     static setTokens(accessToken, refreshToken) {

@@ -1,92 +1,27 @@
-<section>
-	<div class="d-none vh-100 vw-100 position-fixed top-0 start-0 bg-opacity-50 bg-black z-3">
-		<div class="popup-card card position-fixed top-50 start-50 translate-middle">
-			<div class="card-body text-center" style="padding: 40px">
-				<h4 class="h6 mb-3">Вы действительно хотите удалить категорию? Связанные доходы будут удалены
-					навсегда.</h4>
-				<div class="d-flex gap-2 justify-content-center">
-					<a class="btn btn-success" href="#">Да, удалить</a>
-					<a class="btn btn-danger" href="#">Не удалять</a>
-				</div>
+<section id="income-section">
+
+	<div class="position-relative fs-14 p-0 p-lg-4">
+
+		<!-- Menu toggle -->
+		<a class="float-right rounded-circle position-absolute top-0 start-0 d-lg-none z-2"
+		   href="javascript:void(0)" id="menu-toggle">
+			<i class="bi bi-arrow-right-circle-fill h2"></i>
+		</a>
+
+		<!-- Main title -->
+		<div class="main-title h1 pb-1 text-center text-lg-start">Доходы</div>
+
+		<!-- Cards -->
+
+		<div class="py-5">
+			<div class="row row-gap-4" id="incomes-wrapper">
+
+				<!-- Cards inserted here -->
+
 			</div>
 		</div>
 	</div>
 
-	<div class="container-fluid gx-0">
+	<!-- Popup -->
 
-		<div class="position-relative fs-14 p-0 p-lg-4">
-
-			<a class=" float-right rounded-circle position-absolute top-0 start-0 d-lg-none z-2"
-			   href="javascript:void(0)" id="menu-toggle">
-				<i class="bi bi-arrow-right-circle-fill h2"></i>
-			</a>
-
-			<div class="main-title h1 pb-1 text-center text-lg-start">Доходы</div>
-
-			<div class="py-5">
-				<div class="row row-gap-4">
-
-					<div class="col-sm-4 col-lg-4 col-md-6">
-						<div class="card">
-							<div class="container card-body">
-								<h5 class="card-title card-title-styles h3 mb-3 text-truncate">Депозиты</h5>
-								<div class=" row gap-2 px-2">
-									<a class="btn btn-primary col-xl-6 text-truncate" href="#/income-edit">Редактировать</a>
-									<a class="btn btn-danger col-xl-4 text-truncate" href="javascript:void(0)">Удалить</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-4 col-lg-4 col-md-6">
-						<div class="card">
-							<div class="container card-body">
-								<h5 class="card-title card-title-styles h3 mb-3 text-truncate">Зарплата</h5>
-								<div class=" row gap-2 px-2">
-									<a class="btn btn-primary col-xl-6 text-truncate" href="#/income-edit">Редактировать</a>
-									<a class="btn btn-danger col-xl-4 text-truncate" href="javascript:void(0)">Удалить</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-4 col-lg-4 col-md-6">
-						<div class="card">
-							<div class="container card-body">
-								<h5 class="card-title card-title-styles h3 mb-3 text-truncate">Сбережения</h5>
-								<div class=" row gap-2 px-2">
-									<a class="btn btn-primary col-xl-6 text-truncate" href="#/income-edit">Редактировать</a>
-									<a class="btn btn-danger col-xl-4 text-truncate" href="javascript:void(0)">Удалить</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-4 col-lg-4 col-md-6">
-						<div class="card">
-							<div class="container card-body">
-								<h5 class="card-title card-title-styles h3 mb-3 text-truncate">Инвестиции</h5>
-								<div class=" row gap-2 px-2">
-									<a class="btn btn-primary col-xl-6 text-truncate" href="#/income-edit">Редактировать</a>
-									<a class="btn btn-danger col-xl-4 text-truncate" href="javascript:void(0)">Удалить</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-4 col-lg-4 col-md-6">
-						<div class="card h-100">
-							<div class="card-body">
-								<a href="#/income-create">
-									<div class="d-flex align-items-center justify-content-center h-100">
-										<i class="bi bi-plus fs-2 text-secondary"></i>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </section>
