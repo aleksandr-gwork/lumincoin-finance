@@ -1,6 +1,7 @@
 export class CreateElement {
+    static successDeleteId = '';
 
-    static PopupExpenseAndIncome(popupId, successId, cancelId, message, deleteRequest, successDeleteId) {
+    static PopupExpenseAndIncome(popupId, successId, cancelId, message, deleteRequest) {
 
         const popup = document.createElement('div');
         popup.classList.add('d-none', 'vh-100', 'vw-100', 'position-fixed', 'top-0', 'start-0', 'bg-opacity-50', 'bg-black', 'z-3');
@@ -27,8 +28,7 @@ export class CreateElement {
         successButton.type = 'button';
 
         successButton.addEventListener('click', async () => {
-            console.log(successDeleteId);
-            await deleteRequest(successDeleteId);
+            await deleteRequest(this.successDeleteId);
             popup.classList.add('d-none');
         });
 
@@ -50,8 +50,8 @@ export class CreateElement {
         return popup;
     } // Метод создания попапа
 
-    static expenseCardElement(id, title, insertWrapper) {
-        this.expensePopup = document.getElementById("expense-popup"); // Попап
+    static CardElement(id, title, insertWrapper, popupId) {
+        this.expensePopup = document.getElementById(popupId); // Попап
 
         const card = document.createElement('div');
         card.classList.add('col-sm-4', 'col-lg-4', 'col-md-6');
@@ -97,5 +97,29 @@ export class CreateElement {
 
         insertWrapper.appendChild(card);
     }
-}
 
+    static CardAddElement(insertWrapper, createLink) {
+        const card = document.createElement('div');
+        card.classList.add('col-sm-4', 'col-lg-4', 'col-md-6');
+
+        const cardElement = document.createElement('div');
+        cardElement.classList.add('card', 'h-100');
+
+        const cardBody = document.createElement('div');
+        cardBody.classList.add('card-body');
+
+        const link = document.createElement('a');
+        link.href = createLink;
+        link.classList.add('d-flex', 'align-items-center', 'justify-content-center', 'h-100');
+
+        const icon = document.createElement('i');
+        icon.classList.add('bi', 'bi-plus', 'fs-2', 'text-secondary');
+
+        link.append(icon);
+        cardBody.append(link);
+        cardElement.append(cardBody);
+        card.append(cardElement);
+
+        insertWrapper.appendChild(card);
+    }
+}

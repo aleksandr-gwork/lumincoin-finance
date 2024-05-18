@@ -1,0 +1,69 @@
+<section id="operations-section">
+
+	<div class="container-fluid gx-0">
+
+		<div class="position-relative fs-14 p-0 p-lg-4">
+
+			<a class=" float-right rounded-circle position-absolute top-0 start-0 d-lg-none z-2"
+			   href="javascript:void(0)" id="menu-toggle">
+				<i class="bi bi-arrow-right-circle-fill h2"></i>
+			</a>
+
+			<div class="main-title h1 pb-2 text-center text-lg-start">Доходы и расходы</div>
+
+			<div class="d-flex gap-2 pt-4">
+				<a class="btn btn-success" href="#/operations-create" id="income" role="button">Создать доход</a>
+				<a class="btn btn-danger" href="#/operations-create" id="expense" role="button">Создать расход</a>
+			</div>
+
+			<div class="d-flex flex-wrap d-flex gap-3 py-5">
+				<input autocomplete="off" class="btn-check" id="today" name="options" type="radio">
+				<label class="btn btn-outline-secondary" for="today">Сегодня</label>
+
+				<input autocomplete="off" class="btn-check" id="week" name="options" type="radio">
+				<label class="btn btn-outline-secondary" for="week">Неделя</label>
+
+				<input autocomplete="off" class="btn-check" id="month" name="options" type="radio">
+				<label class="btn btn-outline-secondary" for="month">Месяц</label>
+
+				<input autocomplete="off" class="btn-check" id="year" name="options" type="radio">
+				<label class="btn btn-outline-secondary" for="year">Год</label>
+
+				<input autocomplete="off" class="btn-check" id="all" name="options" type="radio">
+				<label class="btn btn-outline-secondary" for="all">Все</label>
+
+				<input autocomplete="off" class="btn-check" id="interval" name="options" type="radio">
+				<label class="btn btn-outline-secondary" for="interval">Интервал</label>
+
+				<div class="d-flex align-items-center gap-4">
+					<label class="form-label" for="date-from">c</label>
+					<input class="form-control" id="date-from" type="date">
+					<label class="form-label" for="date-to">по</label>
+					<input class="form-control" id="date-to" type="date">
+				</div>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table text-center border-top">
+					<thead>
+					<tr>
+						<th>№ операции</th>
+						<th>Тип</th>
+						<th>Категория</th>
+						<th>Сумма</th>
+						<th>Дата</th>
+						<th>Комментарий</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tbody id="operations-wrapper">
+
+					<!--operations rows-->
+
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</section>

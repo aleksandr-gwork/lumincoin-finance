@@ -10,7 +10,10 @@ import {IncomeEdit} from "./components/income/income-edit.js";
 import {IncomeCreate} from "./components/income/income-create.js";
 import {Expense} from "./components/expense/expense.js";
 import {ExpenseCreate} from "./components/expense/expense-create.js";
-import {ExpenseEdit} from "./components/expense/expense-edit";
+import {ExpenseEdit} from "./components/expense/expense-edit.js";
+import {Operations} from "./components/operations/operations.js";
+import {OperationsEdit} from "./components/operations/operations-edit.js";
+import {OperationsCreate} from "./components/operations/operations-create.js";
 
 export class Router {
     constructor() {
@@ -119,32 +122,35 @@ export class Router {
                 }
             },
             {
-                route: '#/income-and-expense',
+                route: '#/operations',
                 title: 'Доходы и расходы',
-                template: 'templates/income-and-expense/income-and-expense.html',
+                template: 'templates/operations/operations.html',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
+                    new Operations();
                 }
             },
             {
-                route: '#/income-and-expense-edit',
+                route: '#/operations-edit',
                 title: 'Редактирование категории расходов',
-                template: 'templates/income-and-expense/income-and-expense-edit.html',
+                template: 'templates/operations/operations-edit.html',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new OperationsEdit();
                 }
             },
             {
-                route: '#/income-and-expense-create',
+                route: '#/operations-create',
                 title: 'Создание категории расходов',
-                template: 'templates/income-and-expense/income-and-expense-create.html',
+                template: 'templates/operations/operations-create.html',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new OperationsCreate();
                 }
             }
         ]

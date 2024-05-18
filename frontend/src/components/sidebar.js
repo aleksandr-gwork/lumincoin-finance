@@ -86,7 +86,7 @@ export class Sidebar {
             this.categoryButton.classList.add("active");
         }
 
-        if (window.location.hash === "#/income-and-expense") {
+        if (window.location.hash === "#/operations") {
             this.sidebarExpenseAndIncomes.classList.add("active");
         }
 
