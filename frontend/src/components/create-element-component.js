@@ -50,7 +50,7 @@ export class CreateElement {
         return popup;
     } // Метод создания попапа
 
-    static CardElement(id, title, insertWrapper, popupId) {
+    static CardElement(operation, id, title, insertWrapper, popupId) {
         this.expensePopup = document.getElementById(popupId); // Попап
 
         const card = document.createElement('div');
@@ -72,7 +72,7 @@ export class CreateElement {
 
         const editButton = document.createElement('a');
         editButton.classList.add('btn', 'btn-primary', 'col-xl-6', 'text-truncate');
-        editButton.href = `#/expense-edit?id=${id}&title=${title}`;
+        editButton.href = `#/${operation}-edit?id=${id}&title=${title}`;
         editButton.textContent = 'Редактировать';
 
         const deleteButton = document.createElement('button');

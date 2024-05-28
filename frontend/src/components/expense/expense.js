@@ -48,7 +48,7 @@ export class Expense {
 
                 // Создание карточек расходов через forEach в массиве this.expenses
                 this.expenses.forEach(element => {
-                    CreateElement.CardElement(element.id, element.title, this.expensesWrapper, this.popupId) // Создание карточек
+                    CreateElement.CardElement('expense', element.id, element.title, this.expensesWrapper, this.popupId) // Создание карточек
                 });
 
                 CreateElement.CardAddElement(this.expensesWrapper, '#/expense-create'); // Добавление карточки добавления нового расхода

@@ -48,7 +48,7 @@ export class Income {
 
                 // Создание карточек доходов через forEach в массиве this.incomes
                 this.incomes.forEach(element => {
-                    CreateElement.CardElement(element.id, element.title, this.incomesWrapper, this.popupId) // Создание карточек
+                    CreateElement.CardElement('income', element.id, element.title, this.incomesWrapper, this.popupId) // Создание карточек
                 });
 
                 CreateElement.CardAddElement(this.incomesWrapper, '#/income-create'); // Добавление карточки добавления нового расхода
