@@ -1,4 +1,21 @@
 <section>
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Выход</h5>
+				</div>
+				<div class="modal-body">
+					Вы действительно хотите выйти из аккаунта?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+					<button id="logoutBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Выход</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="toggled" id="wrapper">
 		<!-- Sidebar -->
 		<div id="sidebar-wrapper">
@@ -13,8 +30,8 @@
 				<ul class="nav nav-pills flex-column mb-auto sidebar-nav-items p-3">
 
 					<li class="nav-item">
-						<a class="fs-14 nav-link d-flex align-items-center gap-2 link-body-emphasis active"
-						   href="#/">
+						<a class="fs-14 nav-link d-flex align-items-center gap-2 link-body-emphasis"
+						   href="#/" id="sidebar-main">
 							<i class="bi bi-house"></i>
 							Главная
 						</a>
@@ -22,7 +39,7 @@
 
 					<li class="nav-item">
 						<a class="fs-14 nav-link d-flex align-items-center gap-2 link-body-emphasis"
-						   href="#/income-and-expense">
+						   href="#/operations" id="sidebar-expense-income">
 							<i class="bi bi-cash-coin"></i>
 							Доходы & Расходы
 						</a>
@@ -35,25 +52,25 @@
 							Категории
 						</a>
 						<div class="category-items collapse list-group rounded-top-0" id="category-collapse">
-							<a class="list-group-item bg-transparent" href="#/income">Доходы</a>
-							<a class="list-group-item bg-transparent" href="#/expense">Расходы</a>
+							<a class="list-group-item bg-transparent" href="#/income" id="sidebar-income">Доходы</a>
+							<a class="list-group-item bg-transparent" href="#/expense" id="sidebar-expense">Расходы</a>
 						</div>
 					</li>
 
 				</ul>
 
 				<div class="sidebar-balance-item fw-medium px-3">
-					Баланс: <span class="ms-2 text-primary" id="balance">500$</span>
+					Баланс: <span class="ms-2 text-primary"><span id="balance">---</span> $</span>
 				</div>
 
 				<hr>
 
 				<div class="sidebar-user-item px-3 pb-3">
-					<a class="d-flex align-items-center link-body-emphasis text-decoration-none"
+					<a class="d-flex align-items-center link-body-emphasis text-decoration-none" data-bs-toggle="modal" data-bs-target="#exampleModal"
 					   href="javascript:void(0)">
 						<img alt="Аватар" class="rounded-circle me-3 img" height="36" src="images/avatar.svg"
 						     width="36">
-						<p class="m-0">RomanChernov</p>
+						<p class="m-0" id="userName">Пользователь</p>
 					</a>
 				</div>
 

@@ -5,6 +5,15 @@ import {Login} from "./components/auth/login.js";
 import {Logout} from "./components/auth/logout.js";
 import {Registration} from "./components/auth/registration.js";
 import {Auth} from "./components/auth/auth.js";
+import {Income} from "./components/income/income.js";
+import {IncomeEdit} from "./components/income/income-edit.js";
+import {IncomeCreate} from "./components/income/income-create.js";
+import {Expense} from "./components/expense/expense.js";
+import {ExpenseCreate} from "./components/expense/expense-create.js";
+import {ExpenseEdit} from "./components/expense/expense-edit.js";
+import {Operations} from "./components/operations/operations.js";
+import {OperationsEdit} from "./components/operations/operations-edit.js";
+import {OperationsCreate} from "./components/operations/operations-create.js";
 
 export class Router {
     constructor() {
@@ -55,6 +64,7 @@ export class Router {
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
+                    new Income();
                 }
             },
             {
@@ -65,6 +75,7 @@ export class Router {
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new IncomeEdit();
                 }
             },
             {
@@ -75,6 +86,7 @@ export class Router {
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new IncomeCreate();
                 }
             },
             {
@@ -84,6 +96,7 @@ export class Router {
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
+                    new Expense();
                 }
             },
             {
@@ -94,6 +107,7 @@ export class Router {
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new ExpenseEdit();
                 }
             },
             {
@@ -104,35 +118,39 @@ export class Router {
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new ExpenseCreate();
                 }
             },
             {
-                route: '#/income-and-expense',
+                route: '#/operations',
                 title: 'Доходы и расходы',
-                template: 'templates/income-and-expense/income-and-expense.html',
+                template: 'templates/operations/operations.html',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
+                    new Operations();
                 }
             },
             {
-                route: '#/income-and-expense-edit',
+                route: '#/operations-edit',
                 title: 'Редактирование категории расходов',
-                template: 'templates/income-and-expense/income-and-expense-edit.html',
+                template: 'templates/operations/operations-edit.html',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new OperationsEdit();
                 }
             },
             {
-                route: '#/income-and-expense-create',
+                route: '#/operations-create',
                 title: 'Создание категории расходов',
-                template: 'templates/income-and-expense/income-and-expense-create.html',
+                template: 'templates/operations/operations-create.html',
                 useSidebar: 'templates/sidebar.html',
                 load: () => {
                     new Sidebar();
                     new Validation();
+                    new OperationsCreate();
                 }
             }
         ]
@@ -147,17 +165,17 @@ export class Router {
             return item.route === urlRoute;
         });
 
-        if (!newRoute) {
-            window.location.href = '#/';
-            return;
-        }
+        // if (!newRoute) {
+        //     window.location.href = '#/';
+        //     return;
+        // }
 
         if (newRoute && newRoute.route !== '#/login' && newRoute.route !== '#/registration' && localStorage.getItem(Auth.accessTokenKey) === null) {
             window.location.href = '#/login';
             return;
         }
 
-        if (newRoute && (newRoute.route === '#/login' || newRoute.route === '#/registration') && localStorage.getItem(Auth.accessTokenKey)) {
+        if (!newRoute || (newRoute && (newRoute.route === '#/login' || newRoute.route === '#/registration') && localStorage.getItem(Auth.accessTokenKey))) {
             window.location.href = '#/';
             return;
         }
