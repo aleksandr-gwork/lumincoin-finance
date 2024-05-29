@@ -1,6 +1,8 @@
-import config from "../../config/config.js";
+import config from "../../config/config";
 
 export class ExpenseCreate {
+    private expenseNameInput: HTMLElement | null;
+    readonly createExpenseButton: HTMLElement | null;
 
     constructor() {
         this.expenseNameInput = document.getElementById("expense-name");
@@ -8,20 +10,20 @@ export class ExpenseCreate {
         this.load().then();
     }
 
-    async load() {
+    async load(): Promise<void> {
         await this.editExpenseEdit();
     }
 
-    async edit() {
-        let response = await fetch(config.api + '/categories/expense/', {
+    async edit(): Promise<void> {
+        let response: Response = await fetch(config.api + '/categories/expense/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'x-auth-token': localStorage.getItem("accessToken"),
+                'x-auth-token': localStorage.getItem("accessToken") ?? "",
             },
             body: JSON.stringify({
-                title: this.expenseNameInput.value
+                title: (this.expenseNameInput as HTMLInputElement).value
             })
         })
 
@@ -32,9 +34,11 @@ export class ExpenseCreate {
         }
     }
 
-    async editExpenseEdit() {
-        this.createExpenseButton.addEventListener("click", () => {
-            this.edit();
-        });
+    async editExpenseEdit(): Promise<void> {
+        if (this.createExpenseButton) {
+            this.createExpenseButton.addEventListener("click", () => {
+                this.edit();
+            });
+        }
     }
 }

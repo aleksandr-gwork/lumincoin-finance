@@ -1,14 +1,14 @@
-import config from "../../config/config.js";
+import config from "../../config/config";
 
 export class Auth {
 
-    static accessTokenKey = 'accessToken';
-    static refreshTokenKey = 'refreshToken';
-    static userInfoKey = 'userInfo';
+    static accessTokenKey: string = 'accessToken';
+    static refreshTokenKey: string = 'refreshToken';
+    static userInfoKey: string = 'userInfo';
 
-    static async processUnauthorizedRequest() {
+    static async processUnauthorizedRequest(): Promise<boolean> {
         // Retrieve the refresh token from local storage
-        const refreshToken = localStorage.getItem(this.refreshTokenKey);
+        const refreshToken: string | null = localStorage.getItem(this.refreshTokenKey);
 
         // If the refresh token is not available, remove the tokens and return false
         if (!refreshToken) {
@@ -18,7 +18,7 @@ export class Auth {
 
         try {
             // Send a POST request to the server to refresh the token
-            const response = await fetch(`${config.api}/refresh`, {
+            const response: Response = await fetch(`${config.api}/refresh`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,23 +51,22 @@ export class Auth {
         }
     }
 
-
-    static setTokens(accessToken, refreshToken) {
+    public static setTokens(accessToken: string, refreshToken: string): void {
         localStorage.setItem(this.accessTokenKey, accessToken);
         localStorage.setItem(this.refreshTokenKey, refreshToken);
     }
 
-    static removeTokens() {
+    public static removeTokens(): void {
         localStorage.removeItem(this.accessTokenKey);
         localStorage.removeItem(this.refreshTokenKey);
     }
 
-    static setUserInfo(info) {
+    public static setUserInfo(info: any): void {
         localStorage.setItem(this.userInfoKey, JSON.stringify(info));
     }
 
-    static getUserInfo() {
-        const userInfo = localStorage.getItem(this.userInfoKey)
+    static getUserInfo(): string | null {
+        const userInfo: string | null = localStorage.getItem(this.userInfoKey)!;
         if (userInfo) {
             return JSON.parse(userInfo);
         }

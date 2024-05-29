@@ -1,21 +1,27 @@
-import {Sidebar} from "./components/sidebar.js";
-import {Main} from "./components/main.js";
-import {Validation} from "./components/validation.js";
-import {Login} from "./components/auth/login.js";
-import {Logout} from "./components/auth/logout.js";
-import {Registration} from "./components/auth/registration.js";
-import {Auth} from "./components/auth/auth.js";
-import {Income} from "./components/income/income.js";
-import {IncomeEdit} from "./components/income/income-edit.js";
-import {IncomeCreate} from "./components/income/income-create.js";
-import {Expense} from "./components/expense/expense.js";
-import {ExpenseCreate} from "./components/expense/expense-create.js";
-import {ExpenseEdit} from "./components/expense/expense-edit.js";
-import {Operations} from "./components/operations/operations.js";
-import {OperationsEdit} from "./components/operations/operations-edit.js";
-import {OperationsCreate} from "./components/operations/operations-create.js";
+import {Sidebar} from "./components/sidebar";
+import {Main} from "./components/main";
+import {Validation} from "./components/validation";
+import {Login} from "./components/auth/login";
+import {Logout} from "./components/auth/logout";
+import {Registration} from "./components/auth/registration";
+import {Auth} from "./components/auth/auth";
+import {Income} from "./components/income/income";
+import {IncomeEdit} from "./components/income/income-edit";
+import {IncomeCreate} from "./components/income/income-create";
+import {Expense} from "./components/expense/expense";
+import {ExpenseCreate} from "./components/expense/expense-create";
+import {ExpenseEdit} from "./components/expense/expense-edit";
+import {Operations} from "./components/operations/operations";
+import {OperationsEdit} from "./components/operations/operations-edit";
+import {OperationsCreate} from "./components/operations/operations-create";
+import {RouterType} from "./types/router.type";
 
 export class Router {
+    readonly contentPageElement: HTMLElement | null;
+    readonly styleElement: HTMLElement | null;
+    readonly titlePageElement: HTMLElement | null;
+    private routes: RouterType[];
+
     constructor() {
         this.contentPageElement = document.getElementById('content');
         this.styleElement = document.getElementById('styles');
@@ -156,19 +162,14 @@ export class Router {
         ]
     }
 
-    async openRoute() {
+    public async openRoute(): Promise<void> {
 
-        const urlRoute = window.location.hash.split('?')[0];
+        const urlRoute: string = window.location.hash.split('?')[0];
 
         // Find route
-        const newRoute = this.routes.find(item => {
+        const newRoute: RouterType | undefined = this.routes.find(item => {
             return item.route === urlRoute;
         });
-
-        // if (!newRoute) {
-        //     window.location.href = '#/';
-        //     return;
-        // }
 
         if (newRoute && newRoute.route !== '#/login' && newRoute.route !== '#/registration' && localStorage.getItem(Auth.accessTokenKey) === null) {
             window.location.href = '#/login';
@@ -182,22 +183,31 @@ export class Router {
 
         if (newRoute) {
             if (newRoute.title) {
-                this.titlePageElement.innerHTML = newRoute.title + ' | Lumincoin Finance';
+                if (this.titlePageElement) {
+                    this.titlePageElement.innerHTML = newRoute.title + ' | Lumincoin Finance';
+                }
+
             }
             if (newRoute.template) {
-                let contentBlock = this.contentPageElement;
+                let contentBlock: HTMLElement | null = this.contentPageElement;
                 if (newRoute.useSidebar) {
-                    this.contentPageElement.innerHTML = await fetch(newRoute.useSidebar).then(response => response.text());
+                    if (this.contentPageElement) {
+                        this.contentPageElement.innerHTML = await fetch(newRoute.useSidebar).then(response => response.text());
+                    }
                     contentBlock = document.getElementById('page-content-wrapper');
                 }
-                contentBlock.innerHTML = await fetch(newRoute.template).then(response => response.text());
+                if (contentBlock) {
+                    contentBlock.innerHTML = await fetch(newRoute.template).then(response => response.text());
+                }
             }
             if (newRoute.styles) {
-                this.styleElement.setAttribute('href', newRoute.styles);
+                if (this.styleElement) {
+                    this.styleElement.setAttribute('href', newRoute.styles);
+                }
             }
+        }
+        if (newRoute && typeof newRoute.load === 'function') {
             newRoute.load();
         }
     }
-
-
 }

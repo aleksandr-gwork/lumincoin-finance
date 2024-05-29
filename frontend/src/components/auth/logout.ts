@@ -1,15 +1,15 @@
-import config from "../../config/config.js";
-import {Auth} from "./auth.js";
+import config from "../../config/config";
+import {Auth} from "./auth";
 
 export class Logout {
     constructor() {
         this.logout().then();
     }
 
-    async logout() {
-        const refreshToken = localStorage.getItem(Auth.refreshTokenKey);
+    async logout(): Promise<boolean> {
+        const refreshToken: string | null = localStorage.getItem(Auth.refreshTokenKey);
         if (refreshToken) {
-            const response = await fetch(config.api + '/logout', {
+            const response: Response = await fetch(config.api + '/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

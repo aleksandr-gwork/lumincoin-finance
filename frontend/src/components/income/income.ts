@@ -1,7 +1,13 @@
-import config from "../../config/config.js";
-import {CreateElement} from "../create-element-component.js";
+import config from "../../config/config";
+import {CreateElement} from "../create-element-component";
 
 export class Income {
+    readonly popupMessage: string;
+    readonly popupId: string;
+    private incomeSection!: HTMLElement | null;
+    private incomesWrapper!: HTMLElement | null;
+    private incomes!: any[];
+
     constructor() {
 
         this.searchElements(); // Поиск элементов
@@ -13,22 +19,26 @@ export class Income {
 
     }
 
-    async load() {
-        this.incomeSection.append(
-            CreateElement.PopupExpenseAndIncome(this.popupId, 'success-button', 'cancel-button', this.popupMessage, this.deleteCardRequest.bind(this))
-        ); // Добавляем popup в контейнер
+    private async load(): Promise<void> {
+        if (this.incomeSection) {
+            this.incomeSection.append(
+                CreateElement.PopupExpenseAndIncome(this.popupId, 'success-button', 'cancel-button', this.popupMessage, this.deleteCardRequest.bind(this))
+            ); // Добавляем popup в контейнер
+        }
 
         await this.loadIncomes();
     }
 
-    searchElements() {
+    private searchElements(): void {
         this.incomesWrapper = document.getElementById("incomes-wrapper"); // Контейнер для карточек доходов
         this.incomeSection = document.getElementById("income-section");
 
     } // Поиск элементов
 
-    async loadIncomes() {
-        this.incomesWrapper.innerHTML = ''; // Очистка контейнера доходов
+    private async loadIncomes(): Promise<void> {
+        if (this.incomesWrapper) {
+            this.incomesWrapper.innerHTML = ''; // Очистка контейнера доходов
+        }
         this.incomes = []; // Очистка массива доходов
 
         // Запрос на получение карточек доходов
@@ -38,7 +48,7 @@ export class Income {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'x-auth-token': localStorage.getItem("accessToken"),
+                    'x-auth-token': localStorage.getItem("accessToken") ?? "",
                 }
             }) // Получение title и id карточек доходов
 
@@ -48,10 +58,10 @@ export class Income {
 
                 // Создание карточек доходов через forEach в массиве this.incomes
                 this.incomes.forEach(element => {
-                    CreateElement.CardElement('income', element.id, element.title, this.incomesWrapper, this.popupId) // Создание карточек
+                    CreateElement.CardElement('income', element.id, element.title, (this.incomesWrapper as HTMLElement), this.popupId) // Создание карточек
                 });
 
-                CreateElement.CardAddElement(this.incomesWrapper, '#/income-create'); // Добавление карточки добавления нового расхода
+                CreateElement.CardAddElement((this.incomesWrapper as HTMLElement), '#/income-create'); // Добавление карточки добавления нового расхода
 
             } else {
                 alert('Не удалось загрузить карточки доходов');
@@ -59,19 +69,19 @@ export class Income {
             }
 
         } catch (error) {
-            alert('Не удалось загрузить карточки доходов' - error);
+            alert('Не удалось загрузить карточки доходов - ' + error);
             console.log(error);
         }
     }
 
     // Запрос на удаление карточки по id
-    async deleteCardRequest(id) {
-        const card = await fetch(config.api + '/categories/income/' + id, {
+    private async deleteCardRequest(id: string): Promise<void> {
+        const card: Response = await fetch(config.api + '/categories/income/' + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'x-auth-token': localStorage.getItem("accessToken"),
+                'x-auth-token': localStorage.getItem("accessToken") ?? "",
             }
         });
 

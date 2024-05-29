@@ -1,6 +1,8 @@
-import config from "../../config/config.js";
+import config from "../../config/config";
 
 export class IncomeCreate {
+    private incomeNameInput: HTMLElement | null;
+    readonly createIncomeButton: HTMLElement | null;
 
     constructor() {
         this.incomeNameInput = document.getElementById("income-name");
@@ -8,20 +10,20 @@ export class IncomeCreate {
         this.load().then();
     }
 
-    async load() {
+    async load(): Promise<void> {
         await this.editIncomeEdit();
     }
 
-    async edit() {
-        let response = await fetch(config.api + '/categories/income/', {
+    async edit(): Promise<void> {
+        let response: Response = await fetch(config.api + '/categories/income/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'x-auth-token': localStorage.getItem("accessToken"),
+                'x-auth-token': localStorage.getItem("accessToken") ?? "",
             },
             body: JSON.stringify({
-                title: this.incomeNameInput.value
+                title: (this.incomeNameInput as HTMLInputElement).value
             })
         })
 
@@ -32,9 +34,12 @@ export class IncomeCreate {
         }
     }
 
-    async editIncomeEdit() {
-        this.createIncomeButton.addEventListener("click", () => {
-            this.edit();
-        });
+    async editIncomeEdit(): Promise<void> {
+        if (this.createIncomeButton) {
+            this.createIncomeButton.addEventListener("click", () => {
+                this.edit();
+            });
+        }
+
     }
 }
