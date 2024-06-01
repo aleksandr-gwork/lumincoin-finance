@@ -22,8 +22,7 @@ export class Main {
     private chartIncome: Chart<'pie', number[], string> | undefined;
     private chartExpense: Chart<'pie', number[], string> | undefined;
 
-
-    private operationsArray: Array<any>;
+    private operationsArray: Array<PushDataType>;
     private interval: string;
     private dateFrom: string | undefined;
     private dateTo: string | undefined;
@@ -52,27 +51,14 @@ export class Main {
 
         this.addEventsToRanges();
 
-        // this.createDate();
         DateUtils.createDate();
         this.addFilterEvents();
-        // this.Charts().then();
         this.radioOperations.forEach((item: HTMLInputElement) => {
             if (item.id === operationsUtils.currentFilter) {
                 item.checked = true;
             }
         })
     }
-
-    // createDate(): void {
-    //     this.currentDate = new Date();
-    //     this.currentDateTo = this.currentDate.getFullYear() + '-' + (this.currentDate.getMonth() + 1) + '-' + this.currentDate.getDate();
-    //     this.currentDay = this.currentDate.getDate();
-    //     this.currentMonth = this.currentDate.getMonth() + 1;
-    //     this.currentYear = this.currentDate.getFullYear();
-    //
-    //     this.dateFrom = '';
-    //     this.dateTo = '';
-    // }
 
     async Charts(id: string, dateFrom?: string, dateTo?: string): Promise<void> {
         this.income = {
@@ -160,8 +146,6 @@ export class Main {
                 options: this.expenseOptions,
             });
         }
-
-
     }
 
     private destroyCharts(): void {
@@ -241,7 +225,6 @@ export class Main {
     }
 
     private addFilterEvents(): void {
-        const that = this;
         this.radioOperations.forEach(item => {
             item.addEventListener('click', async (): Promise<void> => {
                 if (item.id === 'all') {

@@ -1,52 +1,34 @@
 import config from "../../config/config";
 import {Auth} from "./auth";
 import {LoginResponse} from "../../types/login-response.type";
+import {AuthResponseError} from "../../types/auth-response-error.type";
 
 export class Login {
-    private acceptButton!: HTMLElement | null;
-    private emailInputElement!: HTMLElement | null;
-    private passwordInputElement!: HTMLElement | null;
-    private rememberInputElement!: HTMLElement | null;
-    private emailRegExp!: RegExp;
-    private passRegExp!: RegExp;
-    private form!: HTMLFormElement | null;
-    // private formInputs: NodeListOf<HTMLElement> | undefined;
-
-
+    readonly emailRegExp: RegExp = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/;
+    readonly passRegExp: RegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
+    readonly acceptButton: HTMLElement | null;
+    readonly emailInputElement: HTMLElement | null;
+    readonly passwordInputElement: HTMLElement | null;
+    private rememberInputElement: HTMLElement | null;
+    private isValid: boolean = true;
 
     constructor() {
-        this.findElements();
-
-
-    }
-
-    private findElements(): void {
         this.emailInputElement = document.getElementById("email") as HTMLInputElement;
         this.passwordInputElement = document.getElementById("password") as HTMLInputElement;
         this.rememberInputElement = document.getElementById("rememberMe") as HTMLInputElement;
         this.acceptButton = document.getElementById('accept-button');
-        if (this.acceptButton) {
-            this.acceptButton.addEventListener('click', this.login.bind(this)); // Login Button click
-        }
+        if (this.acceptButton) this.acceptButton.addEventListener('click', this.login.bind(this)); // Login Button click
     }
 
-    validationInputs(): boolean {
-        let isValid: boolean = true;
-
-        this.emailRegExp = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/;
-        this.passRegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
-
-        this.form = document.querySelector('form');
-        // if (this.form) {
-        //     this.formInputs = this.form.querySelectorAll('input');
-        // }
+    public validationInputs(): boolean {
+        this.isValid = true;
 
         if (this.emailInputElement) {
             if ((this.emailInputElement as HTMLInputElement).value.match(this.emailRegExp) && (this.emailInputElement as HTMLInputElement).value.length > 0) {
                 this.emailInputElement.classList.remove('is-invalid');
             } else {
                 this.emailInputElement.classList.add('is-invalid');
-                isValid = false;
+                this.isValid = false;
             }
         }
 
@@ -55,11 +37,11 @@ export class Login {
                 this.passwordInputElement.classList.remove('is-invalid');
             } else {
                 this.passwordInputElement.classList.add('is-invalid');
-                isValid = false;
+                this.isValid = false;
             }
         }
 
-        return isValid;
+        return this.isValid;
     };
 
     private async login(): Promise<void> {
@@ -78,19 +60,22 @@ export class Login {
                 })
             })
 
-            if (loginResult && loginResult.status === 401) {
+            if (loginResult && (loginResult.status < 200 || loginResult.status >= 300)) {
                 alert('Неправильная почта или пароль');
+                (this.passwordInputElement as HTMLInputElement).value = '';
                 return;
             }
 
             if (loginResult && loginResult.status >= 200 && loginResult.status < 300) {
-                const result: LoginResponse = await loginResult.json();
-                const accessToken: string = result.tokens.accessToken;
-                const refreshToken: string = result.tokens.refreshToken;
-                const user: string = JSON.stringify(result.user);
+                const result: LoginResponse | AuthResponseError = await loginResult.json();
+                if (result && 'tokens' in result && 'user' in result) {
+                    const accessToken: string = result.tokens.accessToken;
+                    const refreshToken: string = result.tokens.refreshToken;
+                    const user: string = JSON.stringify(result.user);
 
-                Auth.setTokens(accessToken, refreshToken);
-                Auth.setUserInfo(user);
+                    Auth.setTokens(accessToken, refreshToken);
+                    Auth.setUserInfo(user);
+                }
 
                 window.location.href = '#/';
             }

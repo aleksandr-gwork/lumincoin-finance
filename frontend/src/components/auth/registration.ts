@@ -1,47 +1,39 @@
 import config from "../../config/config";
+import {RegistrationResponse} from "../../types/registration-response.type";
+import {AuthResponseError} from "../../types/auth-response-error.type";
 
 export class Registration {
-    private acceptButton: HTMLElement | null = null;
-    private userNameInputElement!: HTMLElement | null;
-    private emailInputElement!: HTMLElement | null;
-    private passwordInputElement!: HTMLElement | null;
-    private passwordRepeatInputElement!: HTMLElement | null;
-    private emailRegExp!: RegExp;
-    private passRegExp!: RegExp;
-    private form!: HTMLFormElement | null;
-    private formInputs!: NodeListOf<HTMLElement>;
+    readonly emailRegExp: RegExp = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/;
+    readonly passRegExp: RegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
+    readonly acceptButton: HTMLElement | null;
+    readonly userNameInputElement: HTMLElement | null;
+    readonly emailInputElement: HTMLElement | null;
+    readonly passwordInputElement: HTMLElement | null;
+    readonly passwordRepeatInputElement: HTMLElement | null;
+    readonly form: HTMLFormElement | null;
+    private formInputs: NodeListOf<HTMLElement> | undefined;
 
     constructor() {
-        this.findInputElements();
-
-        if (this.acceptButton) {
-            this.acceptButton.addEventListener('click', this.processForm.bind(this));
-        }
-    }
-
-    private findInputElements():void {
+        this.form = document.querySelector('form');
         this.userNameInputElement = document.getElementById('name');
         this.emailInputElement = document.getElementById('email');
         this.passwordInputElement = document.getElementById('password');
         this.passwordRepeatInputElement = document.getElementById('repeatPassword');
         this.acceptButton = document.getElementById('accept-button');
+        if (this.acceptButton) {
+            this.acceptButton.addEventListener('click', this.processForm.bind(this));
+        }
     }
 
     private validationInputs(): boolean {
         let isValid: boolean = true;
-        if (!this.form) {
-            return false;
+
+        if (this.form) {
+            this.formInputs = this.form.querySelectorAll('input');
+            this.formInputs.forEach((input: HTMLElement) => {
+                input.classList.remove('is-invalid');
+            });
         }
-
-        this.emailRegExp = /[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/;
-        this.passRegExp = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
-
-        this.form = document.querySelector('form');
-        this.formInputs = this.form!.querySelectorAll('input');
-
-        this.formInputs.forEach((input: HTMLElement) => {
-            input.classList.remove('is-invalid');
-        });
 
         if (this.userNameInputElement) {
             const userFullName: string[] = (this.userNameInputElement as HTMLInputElement).value.split(' ');
@@ -76,9 +68,6 @@ export class Registration {
     }
 
     async processForm(): Promise<void> {
-        if (!this.form) {
-            return;
-        }
 
         const userFullName: string[] = (this.userNameInputElement as HTMLInputElement).value.split(' ');
 
@@ -99,25 +88,20 @@ export class Registration {
                     })
                 });
 
-                if (registrationResult && registrationResult.status === 400) {
-                    alert('Такой пользователь уже существует');
-                    return;
-                }
-
-                if (registrationResult && registrationResult.status === 401) {
+                if (registrationResult && (registrationResult.status === 400 || registrationResult.status === 401)) {
                     alert('Неправильная почта или пароль');
                     return;
                 }
 
                 if (registrationResult && registrationResult.status >= 200 && registrationResult.status < 300) {
-                    const result = await registrationResult.json();
+                    const result: RegistrationResponse | AuthResponseError = await registrationResult.json();
 
-                    if (!result.error) {
+                    if (result && 'user' in result) {
                         window.location.href = '#/login';
                     } else {
                         console.log('Error:' + result.message);
                     }
-                } //TODO: Сделать обработку ошибок при регистрации
+                }
 
             } catch (e) {
                 return console.log('Catch an error:', e);

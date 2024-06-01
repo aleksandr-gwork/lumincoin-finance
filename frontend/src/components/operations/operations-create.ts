@@ -67,9 +67,9 @@ export class OperationsCreate {
             }
         });
         const result = await response.json();
-        result.forEach((element: any): void => {
+        result.forEach((element: {id: number, title: string}): void => {
             const option: HTMLOptionElement = document.createElement('option');
-            option.value = element.id;
+            option.value = (element.id).toString();
             option.textContent = element.title;
             if (this.categoryElement) {
                 this.categoryElement.appendChild(option);
@@ -105,9 +105,10 @@ export class OperationsCreate {
             })
         });
 
-        const result = await response.json();
-
-        if (result) {
+        if (response.ok) {
+            window.location.href = '#/operations';
+        } else {
+            alert('Не удалось создать карточку');
             window.location.href = '#/operations';
         }
     }

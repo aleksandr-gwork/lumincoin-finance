@@ -1,7 +1,11 @@
-export interface LoginResponse {
+export type LoginResponse = {
     tokens: {
         accessToken: string;
         refreshToken: string;
     };
-    user: string;
+    user: {
+        name: string;
+        lastName: string;
+        id: number;
+    };
 }

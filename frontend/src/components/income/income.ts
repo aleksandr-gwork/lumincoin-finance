@@ -1,18 +1,19 @@
 import config from "../../config/config";
-import {CreateElement} from "../create-element-component";
+import {CreateElement} from "../utils/create-element-component";
 
 export class Income {
     readonly popupMessage: string;
     readonly popupId: string;
-    private incomeSection!: HTMLElement | null;
-    private incomesWrapper!: HTMLElement | null;
-    private incomes!: any[];
+    readonly incomeSection: HTMLElement | null;
+    readonly incomesWrapper: HTMLElement | null;
+    private incomes: Array<{id: string, title: string}> = [];
 
     constructor() {
-
-        this.searchElements(); // Поиск элементов
         this.popupMessage = 'Вы действительно хотите удалить категорию? Связанные доходы будут удалены навсегда.';
         this.popupId = 'income-popup';
+
+        this.incomesWrapper = document.getElementById("incomes-wrapper"); // Контейнер для карточек доходов
+        this.incomeSection = document.getElementById("income-section");
 
         // Загрузка
         this.load().then();
@@ -20,20 +21,13 @@ export class Income {
     }
 
     private async load(): Promise<void> {
-        if (this.incomeSection) {
-            this.incomeSection.append(
-                CreateElement.PopupExpenseAndIncome(this.popupId, 'success-button', 'cancel-button', this.popupMessage, this.deleteCardRequest.bind(this))
-            ); // Добавляем popup в контейнер
-        }
+        if (this.incomeSection) this.incomeSection.append(
+            CreateElement.PopupExpenseAndIncome(this.popupId, 'success-button', 'cancel-button', this.popupMessage, this.deleteCardRequest.bind(this))
+        ); // Добавляем popup в контейнер
+
 
         await this.loadIncomes();
     }
-
-    private searchElements(): void {
-        this.incomesWrapper = document.getElementById("incomes-wrapper"); // Контейнер для карточек доходов
-        this.incomeSection = document.getElementById("income-section");
-
-    } // Поиск элементов
 
     private async loadIncomes(): Promise<void> {
         if (this.incomesWrapper) {
@@ -43,7 +37,7 @@ export class Income {
 
         // Запрос на получение карточек доходов
         try {
-            let responseCategories = await fetch(config.api + '/categories/income', {
+            let responseCategories: Response = await fetch(config.api + '/categories/income', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,8 +50,9 @@ export class Income {
 
                 this.incomes.push(...await responseCategories.json()); // Добавление карточек доходов в массив
 
+                console.log(this.incomes);
                 // Создание карточек доходов через forEach в массиве this.incomes
-                this.incomes.forEach(element => {
+                this.incomes.forEach((element) => {
                     CreateElement.CardElement('income', element.id, element.title, (this.incomesWrapper as HTMLElement), this.popupId) // Создание карточек
                 });
 

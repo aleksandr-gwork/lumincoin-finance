@@ -1,12 +1,12 @@
 export class DateUtils {
 
-    static currentDate: Date;
-    static currentDateTo: string;
-    static currentDay: number;
-    static currentMonth: number;
-    static currentYear: number;
-    static dateFrom: string;
-    static dateTo: string;
+    public static currentDate: Date;
+    public static currentDateTo: string;
+    public static currentDay: number;
+    public static currentMonth: number;
+    public static currentYear: number;
+    public static dateFrom: string;
+    public static dateTo: string;
 
     static createDate():void {
         this.currentDate = new Date();

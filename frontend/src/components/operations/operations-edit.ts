@@ -4,49 +4,49 @@ import config from "../../config/config";
 
 export class OperationsEdit {
     private inputElements: {
-        date: HTMLElement;
-        amount: HTMLElement;
-        comment: HTMLElement;
-        type: HTMLElement;
-        category: HTMLElement
+        date: HTMLElement | null;
+        amount: HTMLElement | null;
+        comment: HTMLElement | null;
+        type: HTMLElement | null;
+        category: HTMLElement | null
     };
     private buttonElements: {
-        acceptButton: HTMLElement;
-        exitButton: HTMLElement;
+        acceptButton: HTMLElement | null;
+        exitButton: HTMLElement | null;
     };
 
 
     constructor() {
         this.inputElements = {
-            date: document.getElementById('date')!,
-            amount: document.getElementById('amount')!,
-            comment: document.getElementById('comment')!,
-            type: document.getElementById('type')!,
-            category: document.getElementById('category')!
+            date: document.getElementById('date'),
+            amount: document.getElementById('amount'),
+            comment: document.getElementById('comment'),
+            type: document.getElementById('type'),
+            category: document.getElementById('category')
         };
 
         this.buttonElements = {
-            acceptButton: document.getElementById('accept-button')!,
-            exitButton: document.getElementById('exit-button')!
+            acceptButton: document.getElementById('accept-button'),
+            exitButton: document.getElementById('exit-button')
         };
+
         this.addEvents();
         this.setValues();
 
         this.load().then();
-
     }
 
 
     private addEvents(): void {
-        this.buttonElements.acceptButton.addEventListener('click', async () => {
+        if (this.buttonElements.acceptButton) this.buttonElements.acceptButton.addEventListener('click', async () => {
             await this.operationsResponse();
         });
 
-        this.buttonElements.exitButton.addEventListener('click', () => {
+        if (this.buttonElements.exitButton) this.buttonElements.exitButton.addEventListener('click', () => {
             window.location.href = '#/operations';
         });
 
-        this.inputElements.type.addEventListener('change', async () => {
+        if (this.inputElements.type) this.inputElements.type.addEventListener('change', async () => {
             await this.categoryResponse();
         });
     }
@@ -65,7 +65,7 @@ export class OperationsEdit {
 
 
     async categoryResponse(): Promise<void> {
-        this.inputElements.category.innerHTML = '';
+        if (this.inputElements.category) this.inputElements.category.innerHTML = '';
         const response: Response = await fetch(config.api + '/categories/' + (this.inputElements.type as HTMLInputElement).value, {
             method: 'GET',
             headers: {
@@ -76,11 +76,11 @@ export class OperationsEdit {
         });
         const result = await response.json();
 
-        result.forEach((element: any): void => {
+        result.forEach((element: { id: string, title: string }): void => {
             const option: HTMLOptionElement = document.createElement('option');
             option.value = element.id;
             option.textContent = element.title;
-            this.inputElements.category.appendChild(option);
+            if (this.inputElements.category) this.inputElements.category.appendChild(option);
 
             if (element.title === operationsUtils.category) {
                 option.selected = true;
@@ -91,7 +91,7 @@ export class OperationsEdit {
     }
 
     private async operationsResponse(): Promise<void> {
-        const response = await fetch(config.api + '/operations/' + operationsUtils.id, {
+        const response: Response = await fetch(config.api + '/operations/' + operationsUtils.id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,7 +109,8 @@ export class OperationsEdit {
         if (response.ok) {
             window.location.href = '#/operations';
         } else {
-            alert('Не удалось создать карточку');
+            alert('Не удалось редактировать карточку');
+            window.location.href = '#/operations';
         }
     }
 }

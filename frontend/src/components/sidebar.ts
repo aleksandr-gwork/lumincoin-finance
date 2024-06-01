@@ -10,7 +10,7 @@ export class Sidebar {
     readonly sidebarExpense: HTMLElement | null;
     readonly sidebarExpenseAndIncomes: HTMLElement | null;
     readonly balance: HTMLElement | null;
-    readonly userName: HTMLElement | null;
+    private userName!: HTMLElement | null;
     readonly sidebarToggleButton: HTMLElement | null;
 
     constructor() {
@@ -24,9 +24,7 @@ export class Sidebar {
         this.sidebarExpense = document.getElementById("sidebar-expense");
         this.sidebarExpenseAndIncomes = document.getElementById("sidebar-expense-income");
 
-
         this.balance = document.getElementById("balance");
-        this.userName = document.getElementById("userName");
 
         window.addEventListener('load', (): void => {
             if (!this.sidebarWrapper) {
@@ -50,7 +48,6 @@ export class Sidebar {
             });
         }
 
-
         if (this.categoryButton) {
             this.categoryButton.addEventListener("click", (): void => {
                 this.categoryButton!.classList.toggle("active");
@@ -63,46 +60,41 @@ export class Sidebar {
             });
         }
 
-
         this.getUserInfo();
         this.getBalance().then();
         this.searchActiveNavLink();
     }
 
-    getUserInfo(): void {
-        const userInfoString: string | null = localStorage.getItem("userInfo");
-        if (!userInfoString) {
-            return;
-        }
-        let userInfo = JSON.parse(userInfoString);
-        let userName = userInfo.name;
-        let userLastName = userInfo.lastName;
-        if (this.userName) {
-            this.userName.innerText = `${userName} ${userLastName}`
+    private getUserInfo(): void {
+        this.userName = document.getElementById("userName");
+        let userInfoString: string | null = Auth.getUserInfo();
+        let userInfo: { name: string, lastName: string } | null = userInfoString ? JSON.parse(userInfoString) : null;
+        if (userInfo && this.userName) {
+            this.userName.innerText = userInfo.name + " " + userInfo.lastName;
         }
     }
 
-    async getBalance(): Promise<void> {
+    private async getBalance(): Promise<void> {
         let userBalance: Response = await fetch(config.api + '/balance', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'x-auth-token': localStorage.getItem("accessToken") ?? '',
+                'x-auth-token': localStorage.getItem('accessToken') ?? '',
             }
         })
 
         await Auth.processUnauthorizedRequest();
 
         if (userBalance.ok) {
-            let result = await userBalance.json();
+            let result: { balance: string } = await userBalance.json();
             if (this.balance) {
                 this.balance.innerText = result.balance;
             }
         }
     }
 
-    searchActiveNavLink(): void {
+    private searchActiveNavLink(): void {
         if (this.sidebarMain) {
             if (window.location.hash === "#/") {
                 this.sidebarMain.classList.add("active");
@@ -146,7 +138,6 @@ export class Sidebar {
             }
         })
     }
-
 }
 
 

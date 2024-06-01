@@ -10,13 +10,13 @@ export class IncomeEdit {
         this.load().then();
     }
 
-    async load(): Promise<void> {
+    private async load(): Promise<void> {
         let title: string = window.location.hash.split('title=')[1];
         (this.incomeNameInput as HTMLInputElement).value = decodeURI(title);
         await this.editIncomeEdit();
     }
 
-    async save(): Promise<void> {
+    private async save(): Promise<void> {
         let id: string = window.location.hash.split('id=')[1];
         id = id.split('&')[0];
 
@@ -39,7 +39,7 @@ export class IncomeEdit {
         }
     }
 
-    async editIncomeEdit(): Promise<void> {
+    private async editIncomeEdit(): Promise<void> {
         if (this.editIncomeButton) {
             this.editIncomeButton.addEventListener("click", () => {
                 this.save();

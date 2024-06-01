@@ -29,11 +29,11 @@ export class CreateElement {
         successButton.type = 'button';
 
         successButton.addEventListener('click', async (): Promise<void> => {
-            await deleteRequest(this.successDeleteId);
+            deleteRequest(this.successDeleteId);
             popup.classList.add('d-none');
         });
 
-        const cancelButton = document.createElement('button');
+        const cancelButton : HTMLButtonElement = document.createElement('button');
         cancelButton.classList.add('btn', 'btn-danger', 'px-3', 'py-2');
         cancelButton.innerText = 'Не удалять';
         cancelButton.id = cancelId;
@@ -54,29 +54,29 @@ export class CreateElement {
     static CardElement(operation: string, id: string, title: string, insertWrapper: HTMLElement, popupId: string) {
         this.expensePopup = document.getElementById(popupId); // Попап
 
-        const card = document.createElement('div');
+        const card: HTMLDivElement = document.createElement('div');
         card.classList.add('col-sm-4', 'col-lg-4', 'col-md-6');
         card.id = `card-${id}`;
 
-        const cardElement = document.createElement('div');
+        const cardElement: HTMLDivElement = document.createElement('div');
         cardElement.classList.add('card');
 
-        const cardBody = document.createElement('div');
+        const cardBody: HTMLDivElement = document.createElement('div');
         cardBody.classList.add('container', 'card-body');
 
-        const titleElement = document.createElement('h5');
+        const titleElement: HTMLHeadElement = document.createElement('h5');
         titleElement.classList.add('card-title', 'card-title-styles', 'h3', 'mb-3', 'text-truncate');
         titleElement.textContent = title;
 
-        const buttonContainer = document.createElement('div');
+        const buttonContainer: HTMLDivElement = document.createElement('div');
         buttonContainer.classList.add('row', 'gap-2', 'px-2');
 
-        const editButton = document.createElement('a');
+        const editButton: HTMLAnchorElement = document.createElement('a');
         editButton.classList.add('btn', 'btn-primary', 'col-xl-6', 'text-truncate');
         editButton.href = `#/${operation}-edit?id=${id}&title=${title}`;
         editButton.textContent = 'Редактировать';
 
-        const deleteButton = document.createElement('button');
+        const deleteButton: HTMLButtonElement = document.createElement('button');
         deleteButton.classList.add('btn', 'btn-danger', 'col-xl-4', 'text-truncate', 'delete-button');
         deleteButton.type = 'button';
         deleteButton.textContent = 'Удалить';

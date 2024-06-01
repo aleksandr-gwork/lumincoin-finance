@@ -1,18 +1,19 @@
 import config from "../../config/config";
-import {CreateElement} from "../create-element-component";
+import {CreateElement} from "../utils/create-element-component";
 
 export class Expense {
     readonly popupMessage: string;
     readonly popupId: string;
-    private expenseSection!: HTMLElement | null;
-    private expensesWrapper!: HTMLElement | null;
-    private expenses!: any[];
+    private expenseSection: HTMLElement | null;
+    private expensesWrapper: HTMLElement | null;
+    private expenses: Array<{id: string, title: string}> = [];
 
     constructor() {
-
-        this.searchElements(); // Поиск элементов
         this.popupMessage = 'Вы действительно хотите удалить категорию?';
         this.popupId = 'expense-popup';
+
+        this.expensesWrapper = document.getElementById("expenses-wrapper"); // Контейнер для карточек расходов
+        this.expenseSection = document.getElementById("expense-section");
 
         // Загрузка
         this.load().then();
@@ -27,12 +28,6 @@ export class Expense {
         }
         await this.loadExpenses();
     }
-
-    private searchElements(): void {
-        this.expensesWrapper = document.getElementById("expenses-wrapper"); // Контейнер для карточек расходов
-        this.expenseSection = document.getElementById("expense-section");
-
-    } // Поиск элементов
 
     async loadExpenses(): Promise<void> {
         if (this.expensesWrapper) {

@@ -10,11 +10,11 @@ export class IncomeCreate {
         this.load().then();
     }
 
-    async load(): Promise<void> {
+    private async load(): Promise<void> {
         await this.editIncomeEdit();
     }
 
-    async edit(): Promise<void> {
+    private async edit(): Promise<void> {
         let response: Response = await fetch(config.api + '/categories/income/', {
             method: 'POST',
             headers: {
@@ -34,7 +34,7 @@ export class IncomeCreate {
         }
     }
 
-    async editIncomeEdit(): Promise<void> {
+    private async editIncomeEdit(): Promise<void> {
         if (this.createIncomeButton) {
             this.createIncomeButton.addEventListener("click", () => {
                 this.edit();

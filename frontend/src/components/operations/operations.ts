@@ -1,30 +1,28 @@
 import config from "../../config/config";
 import {operationsUtils} from "./operations-utils";
 import {DateUtils} from "../utils/date-utils";
+import {AddRowTableType} from "../../types/add-row-table.type";
+import {OperationsPopupType} from "../../types/popup.type";
+import {OperationsResponseType} from "../../types/operations-response.type";
 
 export class Operations {
     private deleteId: string;
-    private operationsSection!: HTMLElement | null;
-    private operationsWrapper!: HTMLElement | null;
-    private createIncomeButton!: HTMLElement | null;
-    private createExpenseButton!: HTMLElement | null;
-    private radioOperations!: NodeListOf<HTMLInputElement> | null;
-    private rangeDateFrom!: HTMLElement | null;
-    private rangeDateTo!: HTMLElement | null;
+    readonly operationsSection: HTMLElement | null;
+    readonly operationsWrapper: HTMLElement | null;
+    readonly createIncomeButton: HTMLElement | null;
+    readonly createExpenseButton: HTMLElement | null;
+    readonly radioOperations: NodeListOf<HTMLInputElement> | null;
+    readonly rangeDateFrom: HTMLElement | null;
+    readonly rangeDateTo: HTMLElement | null;
     private popupMessage!: string;
     private popupId!: string;
-    private operationsArray!: any[];
+    private operationsArray!: OperationsResponseType[];
     private numOperations!: number;
     private interval!: string;
-
 
     constructor() {
         this.deleteId = '';
         // Загрузка
-        this.load().then();
-    }
-
-    private searchElements(): void {
         this.operationsSection = document.getElementById("operations-section");
         this.operationsWrapper = document.getElementById("operations-wrapper");
 
@@ -44,15 +42,13 @@ export class Operations {
 
         this.radioOperations = document.querySelectorAll('input[name="options"]');
 
-        if (this.rangeDateFrom && this.rangeDateTo) {
-            this.rangeDateFrom = document.getElementById('date-from');
-            this.rangeDateTo = document.getElementById('date-to');
-        }
-
+        this.rangeDateFrom = document.getElementById('date-from');
+        this.rangeDateTo = document.getElementById('date-to');
 
         this.addEventsToRanges();
 
-    } // Поиск элементов
+        this.load().then();
+    }
 
     private addEventsToRanges(): void {
         if (this.rangeDateFrom && this.rangeDateTo) {
@@ -83,17 +79,6 @@ export class Operations {
         }
 
     }
-
-    // createDate() {
-    //     this.currentDate = new Date();
-    //     this.currentDateTo = this.currentDate.getFullYear() + '-' + (this.currentDate.getMonth() + 1) + '-' + this.currentDate.getDate();
-    //     this.currentDay = this.currentDate.getDate();
-    //     this.currentMonth = this.currentDate.getMonth() + 1;
-    //     this.currentYear = this.currentDate.getFullYear();
-    //
-    //     this.dateFrom = '';
-    //     this.dateTo = '';
-    // }
 
     private addFilterEvents(): void {
         if (this.radioOperations) {
@@ -137,13 +122,10 @@ export class Operations {
 
     }
 
-    async load() {
-
-        this.searchElements(); // Поиск элементов
+    private async load() {
 
         this.createPopup(); // Создание popup
 
-        // this.createDate(); // Создание дат
         DateUtils.createDate();
 
         this.addFilterEvents();
@@ -157,11 +139,10 @@ export class Operations {
                 }
             })
         }
-
     }
 
 
-    async loadOperations(period: string, dateFrom?: string, dateTo?: string): Promise<void> {
+    private async loadOperations(period: string, dateFrom?: string, dateTo?: string): Promise<void> {
         if (this.operationsWrapper) {
             this.operationsWrapper.innerHTML = ''; // Очистка контейнера
         }
@@ -204,7 +185,8 @@ export class Operations {
         }
     }
 
-    private addRowTable(id: string, type: string, category: string, amount: string, date: string, comment: string = ''): void {
+
+    private addRowTable(id: AddRowTableType['id'], type: AddRowTableType['type'], category: AddRowTableType['category'], amount: AddRowTableType['amount'], date: AddRowTableType['date'], comment: AddRowTableType['comment']): void {
 
         const row: HTMLTableRowElement = document.createElement('tr');
 
@@ -273,7 +255,7 @@ export class Operations {
     }
 
 
-    private operationsPopup(popupId: string, successId: string, cancelId: string, message: string): HTMLElement {
+    private operationsPopup (popupId: OperationsPopupType['popupId'], successId: OperationsPopupType['successId'], cancelId: OperationsPopupType['cancelId'], message: OperationsPopupType['message']): HTMLElement {
 
         const popup: HTMLDivElement | null = document.createElement('div');
         popup.classList.add('d-none', 'vh-100', 'vw-100', 'position-fixed', 'top-0', 'start-0', 'bg-opacity-50', 'bg-black', 'z-3');

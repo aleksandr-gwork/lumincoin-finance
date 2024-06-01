@@ -1,12 +1,15 @@
 import config from "../../config/config";
+import {AuthResponseError} from "../../types/auth-response-error.type";
+import {RefreshResponse} from "../../types/refresh-response.type";
+import {LoginResponse} from "../../types/login-response.type";
 
 export class Auth {
 
-    static accessTokenKey: string = 'accessToken';
-    static refreshTokenKey: string = 'refreshToken';
-    static userInfoKey: string = 'userInfo';
+    public static accessTokenKey: string = 'accessToken';
+    public static refreshTokenKey: string = 'refreshToken';
+    public static userInfoKey: string = 'userInfo';
 
-    static async processUnauthorizedRequest(): Promise<boolean> {
+    public static async processUnauthorizedRequest(): Promise<boolean> {
         // Retrieve the refresh token from local storage
         const refreshToken: string | null = localStorage.getItem(this.refreshTokenKey);
 
@@ -33,16 +36,20 @@ export class Auth {
             }
 
             // Parse the response as JSON
-            const result = await response.json();
+            const result: RefreshResponse | AuthResponseError = await response.json();
 
             // If the response contains an error, throw an error
-            if (result.error) {
+            if (result && 'error' in result && result.error) {
                 throw new Error('Error refreshing token');
             }
 
             // Set the new tokens
-            this.setTokens(result.tokens.accessToken, result.tokens.refreshToken);
+            if (result && 'tokens' in result && result.tokens) {
+                this.setTokens(result.tokens.accessToken, result.tokens.refreshToken);
+            }
+
             return true;
+
         } catch (error) {
             // Log the error, remove the tokens, and return false
             console.error(error);
@@ -61,7 +68,7 @@ export class Auth {
         localStorage.removeItem(this.refreshTokenKey);
     }
 
-    public static setUserInfo(info: any): void {
+    public static setUserInfo(info: string): void {
         localStorage.setItem(this.userInfoKey, JSON.stringify(info));
     }
 
